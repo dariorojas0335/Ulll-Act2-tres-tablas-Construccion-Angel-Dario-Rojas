@@ -1,111 +1,99 @@
-Perfecto 👍
-Aquí tienes **la versión lista para copiar y pegar directamente en un documento de GitHub (README.md, PDF, Word, etc.)** — con formato limpio en Markdown, bloques de código bien delimitados, y pasos numerados exactamente como los pediste.
+# Proyecto Django: Sistema de Administración de Construcción
 
-Puedes copiar **todo este bloque completo**:
+Te proporcionaré una guía completa para crear el proyecto de construcción con Django, incluyendo todos los archivos necesarios.
 
----
+## 1. Estructura inicial del proyecto
 
-# 🏗️ Proyecto Django — Construcción
+Primero, vamos a crear la estructura completa de carpetas y archivos:
 
-**Lenguaje:** Python
-**Framework:** Django
-**Editor:** VS Code
-
----
-
-## 📁 Primera Parte — Procedimiento paso a paso
-
-### 1️⃣ Crear carpeta del Proyecto `UIII_Construccion_0335`
-
-```bash
-mkdir UIII_Construccion_0335
-cd UIII_Construccion_0335
+```
+UIII_Construccion_0335/
+├── backend_Construccion/
+│   ├── backend_Construccion/
+│   │   ├── __init__.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── app_Construccion/
+│   │   ├── migrations/
+│   │   │   └── __init__.py
+│   │   ├── templates/
+│   │   │   ├── app_Construccion/
+│   │   │   │   ├── empleado/
+│   │   │   │   │   ├── agregar_empleado.html
+│   │   │   │   │   ├── ver_empleado.html
+│   │   │   │   │   ├── actualizar_empleado.html
+│   │   │   │   │   └── borrar_empleado.html
+│   │   │   │   ├── base.html
+│   │   │   │   ├── header.html
+│   │   │   │   ├── navbar.html
+│   │   │   │   ├── footer.html
+│   │   │   │   └── inicio.html
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── manage.py
+│   └── db.sqlite3
+└── .venv/
 ```
 
-### 2️⃣ Abrir VS Code sobre la carpeta
+## 2. Procedimientos paso a paso
 
+### Pasos 1-3: Crear carpeta y abrir VS Code
 ```bash
+# Crear carpeta del proyecto
+mkdir UIII_Construccion_0335
+cd UIII_Construccion_0335
+
+# Abrir VS Code en esta carpeta
 code .
 ```
 
-(O también desde VS Code: `File > Open Folder...` y seleccionas la carpeta.)
-
-### 3️⃣ Abrir terminal en VS Code
-
-* Menú: `Terminal > New Terminal`
-* Atajo: `Ctrl + ``
-
-### 4️⃣ Crear carpeta de entorno virtual `.venv` desde la terminal
-
+### Pasos 4-6: Entorno virtual
+En la terminal de VS Code:
 ```bash
-# Windows PowerShell
+# Crear entorno virtual
 python -m venv .venv
 
-# macOS / Linux
-python3 -m venv .venv
-```
-
-### 5️⃣ Activar el entorno virtual
-
-```bash
-# Windows PowerShell
-.venv\Scripts\Activate.ps1
-
-# Windows cmd
-.venv\Scripts\activate.bat
-
-# macOS / Linux
+# Activar entorno virtual
+# En Windows:
+.venv\Scripts\activate
+# En Mac/Linux:
 source .venv/bin/activate
+
+# Verificar que está activado (debería mostrar (.venv) al inicio)
 ```
 
-### 6️⃣ Activar intérprete de Python en VS Code
-
-* En VS Code: `Ctrl + Shift + P` → “Python: Select Interpreter” → elige `.venv`.
-
-### 7️⃣ Instalar Django
-
+### Pasos 7-8: Instalar Django y crear proyecto
 ```bash
-pip install --upgrade pip
+# Instalar Django
 pip install django
+
+# Crear proyecto (sin duplicar carpeta)
+django-admin startproject backend_Construccion .
 ```
 
-### 8️⃣ Crear proyecto `backend_Construccion` sin duplicar carpeta
-
+### Paso 9-10: Ejecutar servidor
 ```bash
-django-admin startproject backend_Construccion
-```
-
-### 9️⃣ Ejecutar servidor en el puerto 8032
-
-```bash
-cd backend_Construccion
+# Ejecutar en puerto 8032
 python manage.py runserver 8032
 ```
 
-### 🔟 Copiar y pegar el link en el navegador
-
-```
-http://127.0.0.1:8032/
-```
-
-### 11️⃣ Crear aplicación `app_Construccion`
-
+### Paso 11: Crear aplicación
 ```bash
 python manage.py startapp app_Construccion
 ```
 
----
+## 3. Archivos del proyecto
 
-## 🧱 12. Archivo `models.py`
-
-Ruta: `backend_Construccion/app_Construccion/models.py`
-
+### 3.1 models.py (corregido)
 ```python
 from django.db import models
 
-# ==========================================
-# MODELO: Cliente (PENDIENTE)
-# ==========================================
 class Cliente(models.Model):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
@@ -118,23 +106,19 @@ class Cliente(models.Model):
         ],
         default="Residencial"
     )
-    telefono = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(unique=True, blank=True, null=True)
-    direccion = models.CharField(max_length=200, blank=True)
+    telefono = models.CharField(max_length=20)
+    email = models.EmailField(unique=True)
+    direccion = models.CharField(max_length=200)
     fecha_registro = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
 
-
-# ==========================================
-# MODELO: Empleado (ACTIVO)
-# ==========================================
 class Empleado(models.Model):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     cargo = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=20, blank=True)
+    telefono = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
     fecha_contratacion = models.DateField()
     salario = models.DecimalField(max_digits=10, decimal_places=2)
@@ -142,18 +126,14 @@ class Empleado(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.cargo}"
 
-
-# ==========================================
-# MODELO: Proyecto (PENDIENTE)
-# ==========================================
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=150)
-    descripcion = models.TextField(blank=True)
-    fecha_inicio = models.DateField(blank=True, null=True)
-    fecha_fin = models.DateField(blank=True, null=True)
-    presupuesto = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name="proyectos", blank=True, null=True)
-    empleados = models.ManyToManyField(Empleado, related_name="proyectos", blank=True)
+    descripcion = models.TextField()
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    presupuesto = models.DecimalField(max_digits=12, decimal_places=2)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name="proyectos")
+    empleados = models.ManyToManyField(Empleado, related_name="proyectos")
     estado = models.CharField(
         max_length=50,
         choices=[
@@ -168,333 +148,514 @@ class Proyecto(models.Model):
         return self.nombre
 ```
 
----
-
-## 🧩 12.5 Realizar migraciones
-
-```bash
-python manage.py makemigrations app_Construccion
-python manage.py migrate
-```
-
----
-
-## 👷 13–14. MODELO: Empleado — `views.py`
-
-Ruta: `backend_Construccion/app_Construccion/views.py`
-
+### 3.2 views.py
 ```python
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from .models import Empleado
-from django.utils import timezone
 
 def inicio_construccion(request):
-    contexto = {"titulo": "Sistema de Administración Construccion", "now_year": timezone.now().year}
-    return render(request, "inicio.html", contexto)
+    return render(request, 'app_Construccion/inicio.html')
 
 def agregar_empleado(request):
-    if request.method == "POST":
-        Empleado.objects.create(
-            nombre=request.POST.get("nombre"),
-            apellido=request.POST.get("apellido"),
-            cargo=request.POST.get("cargo"),
-            telefono=request.POST.get("telefono"),
-            email=request.POST.get("email"),
-            fecha_contratacion=request.POST.get("fecha_contratacion"),
-            salario=request.POST.get("salario"),
+    if request.method == 'POST':
+        empleado = Empleado(
+            nombre=request.POST['nombre'],
+            apellido=request.POST['apellido'],
+            cargo=request.POST['cargo'],
+            telefono=request.POST['telefono'],
+            email=request.POST['email'],
+            fecha_contratacion=request.POST['fecha_contratacion'],
+            salario=request.POST['salario']
         )
-        return redirect("ver_empleado")
-    return render(request, "empleado/agregar_empleado.html")
+        empleado.save()
+        return redirect('ver_empleados')
+    return render(request, 'app_Construccion/empleado/agregar_empleado.html')
 
-def ver_empleado(request):
-    empleados = Empleado.objects.all().order_by("-id")
-    return render(request, "empleado/ver_empleado.html", {"empleados": empleados, "now_year": timezone.now().year})
+def ver_empleados(request):
+    empleados = Empleado.objects.all()
+    return render(request, 'app_Construccion/empleado/ver_empleado.html', {'empleados': empleados})
 
 def actualizar_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, id=empleado_id)
-    return render(request, "empleado/actualizar_empleado.html", {"empleado": empleado})
+    if request.method == 'POST':
+        empleado.nombre = request.POST['nombre']
+        empleado.apellido = request.POST['apellido']
+        empleado.cargo = request.POST['cargo']
+        empleado.telefono = request.POST['telefono']
+        empleado.email = request.POST['email']
+        empleado.fecha_contratacion = request.POST['fecha_contratacion']
+        empleado.salario = request.POST['salario']
+        empleado.save()
+        return redirect('ver_empleados')
+    return render(request, 'app_Construccion/empleado/actualizar_empleado.html', {'empleado': empleado})
 
 def realizar_actualizacion_empleado(request, empleado_id):
-    if request.method == "POST":
-        empleado = get_object_or_404(Empleado, id=empleado_id)
-        empleado.nombre = request.POST.get("nombre")
-        empleado.apellido = request.POST.get("apellido")
-        empleado.cargo = request.POST.get("cargo")
-        empleado.telefono = request.POST.get("telefono")
-        empleado.email = request.POST.get("email")
-        empleado.fecha_contratacion = request.POST.get("fecha_contratacion")
-        empleado.salario = request.POST.get("salario")
-        empleado.save()
-        return redirect("ver_empleado")
-    return HttpResponse("Método no permitido", status=405)
+    return actualizar_empleado(request, empleado_id)
 
 def borrar_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, id=empleado_id)
-    if request.method == "POST":
+    if request.method == 'POST':
         empleado.delete()
-        return redirect("ver_empleado")
-    return render(request, "empleado/borrar_empleado.html", {"empleado": empleado})
+        return redirect('ver_empleados')
+    return render(request, 'app_Construccion/empleado/borrar_empleado.html', {'empleado': empleado})
 ```
 
----
-
-## 🧭 15–22. Estructura de carpetas y plantillas HTML
-
-```
-app_Construccion/
- └─ templates/
-     ├─ base.html
-     ├─ header.html
-     ├─ navbar.html
-     ├─ footer.html
-     ├─ inicio.html
-     └─ empleado/
-         ├─ agregar_empleado.html
-         ├─ ver_empleado.html
-         ├─ actualizar_empleado.html
-         └─ borrar_empleado.html
-```
-
----
-
-### 🧱 base.html
-
-```html
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Sistema de Administración Construccion{% endblock %}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { background-color: #f7f9fb; color: #333; }
-    .card { border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
-    footer { background: #ffffff; border-top: 1px solid #eaeaea; padding: 12px 0; }
-  </style>
-</head>
-<body>
-  {% include "header.html" %}
-  {% include "navbar.html" %}
-  <main class="container my-4">
-    {% block content %}{% endblock %}
-  </main>
-  {% include "footer.html" %}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-```
-
----
-
-### 🧭 navbar.html
-
-```html
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'inicio_construccion' %}">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16"><path d="M8.5 2.5v5h1v-5h-1z"/><path d="M1 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v12h-1V2H1v12H0V2a1 1 0 0 1 1-1z"/></svg>
-      <span class="ms-2">Sistema de Administración Construccion</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'inicio_construccion' %}">Inicio</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Empleados</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'agregar_empleado' %}">Agregar empleado</a></li>
-            <li><a class="dropdown-item" href="{% url 'ver_empleado' %}">Ver empleados</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Proyectos</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Agregar proyectos</a></li>
-            <li><a class="dropdown-item" href="#">Ver proyectos</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Clientes</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Agregar clientes</a></li>
-            <li><a class="dropdown-item" href="#">Ver clientes</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-```
-
----
-
-### 🧾 footer.html
-
-```html
-<footer class="fixed-bottom text-center">
-  <div class="container">
-    <small>
-      &copy; {{ now_year }} - Derechos reservados. Creado por Tec. Angel Dario Rojas, Cbtis 128.
-    </small>
-  </div>
-</footer>
-```
-
----
-
-### 🏠 inicio.html
-
-```html
-{% extends "base.html" %}
-{% block title %}Inicio - Sistema Construccion{% endblock %}
-{% block content %}
-<div class="row">
-  <div class="col-md-7">
-    <div class="card p-4">
-      <h3>Bienvenido al Sistema de Administración de Construcción</h3>
-      <p>Este sistema permite gestionar empleados, proyectos y clientes.</p>
-      <ul>
-        <li>Agregar, ver, actualizar y borrar empleados.</li>
-        <li>Diseño simple, moderno y funcional.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-5">
-    <img src="https://images.unsplash.com/photo-1526403224743-7b7f3c5fb7f8?auto=format&fit=crop&w=1200&q=60" class="img-fluid rounded" alt="Construcción">
-  </div>
-</div>
-{% endblock %}
-```
-
----
-
-### 👷 Plantillas de Empleado (`/empleado/`)
-
-#### agregar_empleado.html
-
-```html
-{% extends "base.html" %}
-{% block content %}
-<div class="card p-4">
-  <h4>Agregar empleado</h4>
-  <form method="post" action="{% url 'agregar_empleado' %}">
-    {% csrf_token %}
-    <input name="nombre" class="form-control mb-2" placeholder="Nombre">
-    <input name="apellido" class="form-control mb-2" placeholder="Apellido">
-    <input name="cargo" class="form-control mb-2" placeholder="Cargo">
-    <input name="telefono" class="form-control mb-2" placeholder="Teléfono">
-    <input name="email" type="email" class="form-control mb-2" placeholder="Correo">
-    <input name="fecha_contratacion" type="date" class="form-control mb-2">
-    <input name="salario" type="number" step="0.01" class="form-control mb-3" placeholder="Salario">
-    <button class="btn btn-primary">Guardar</button>
-  </form>
-</div>
-{% endblock %}
-```
-
-#### ver_empleado.html
-
-```html
-{% extends "base.html" %}
-{% block content %}
-<div class="card p-4">
-  <h4>Lista de empleados</h4>
-  <a href="{% url 'agregar_empleado' %}" class="btn btn-success mb-3">Agregar empleado</a>
-  <table class="table table-striped">
-    <thead><tr><th>#</th><th>Nombre</th><th>Cargo</th><th>Email</th><th>Acciones</th></tr></thead>
-    <tbody>
-      {% for e in empleados %}
-      <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ e.nombre }} {{ e.apellido }}</td>
-        <td>{{ e.cargo }}</td>
-        <td>{{ e.email }}</td>
-        <td>
-          <a href="{% url 'actualizar_empleado' e.id %}" class="btn btn-sm btn-info">Editar</a>
-          <a href="{% url 'borrar_empleado' e.id %}" class="btn btn-sm btn-danger">Borrar</a>
-        </td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="5">No hay empleados</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endblock %}
-```
-
-#### actualizar_empleado.html
-
-```html
-{% extends "base.html" %}
-{% block content %}
-<div class="card p-4">
-  <h4>Actualizar empleado</h4>
-  <form method="post" action="{% url 'realizar_actualizacion_empleado' empleado.id %}">
-    {% csrf_token %}
-    <input name="nombre" class="form-control mb-2" value="{{ empleado.nombre }}">
-    <input name="apellido" class="form-control mb-2" value="{{ empleado.apellido }}">
-    <input name="cargo" class="form-control mb-2" value="{{ empleado.cargo }}">
-    <input name="telefono" class="form-control mb-2" value="{{ empleado.telefono }}">
-    <input name="email" class="form-control mb-2" value="{{ empleado.email }}">
-    <input name="fecha_contratacion" type="date" class="form-control mb-2" value="{{ empleado.fecha_contratacion }}">
-    <input name="salario" type="number" step="0.01" class="form-control mb-3" value="{{ empleado.salario }}">
-    <button class="btn btn-primary">Actualizar</button>
-  </form>
-</div>
-{% endblock %}
-```
-
-#### borrar_empleado.html
-
-```html
-{% extends "base.html" %}
-{% block content %}
-<div class="card p-4">
-  <h4>Eliminar empleado</h4>
-  <p>¿Seguro que deseas eliminar a <strong>{{ empleado.nombre }} {{ empleado.apellido }}</strong>?</p>
-  <form method="post">
-    {% csrf_token %}
-    <button class="btn btn-danger">Sí, eliminar</button>
-    <a href="{% url 'ver_empleado' %}" class="btn btn-secondary">Cancelar</a>
-  </form>
-</div>
-{% endblock %}
-```
-
----
-
-## 🌐 24. Archivo `urls.py` de `app_Construccion`
-
-Ruta: `app_Construccion/urls.py`
-
+### 3.3 urls.py (app_Construccion)
 ```python
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.inicio_construccion, name="inicio_construccion"),
-    path("empleados/", views.ver_empleado, name="ver_empleado"),
-    path("empleados/agregar/", views.agregar_empleado, name="agregar_empleado"),
-    path("empleados/actualizar/<int:empleado_id>/", views.actualizar_empleado, name="actualizar_empleado"),
-    path("empleados/realizar_actualizacion/<int:empleado_id>/", views.realizar_actualizacion_empleado, name="realizar_actualizacion_empleado"),
-    path("empleados/borrar/<int:empleado_id>/", views.borrar_empleado, name="borrar_empleado"),
+    path('', views.inicio_construccion, name='inicio_construccion'),
+    path('empleado/agregar/', views.agregar_empleado, name='agregar_empleado'),
+    path('empleado/ver/', views.ver_empleados, name='ver_empleados'),
+    path('empleado/actualizar/<int:empleado_id>/', views.actualizar_empleado, name='actualizar_empleado'),
+    path('empleado/realizar_actualizacion/<int:empleado_id>/', views.realizar_actualizacion_empleado, name='realizar_actualizacion_empleado'),
+    path('empleado/borrar/<int:empleado_id>/', views.borrar_empleado, name='borrar_empleado'),
 ]
 ```
 
----
+### 3.4 urls.py (backend_Construccion)
+```python
+from django.contrib import admin
+from django.urls import path, include
 
-## ⚙️ 25. Agregar `app_Construccion` en `settings.py`
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('app_Construccion.urls')),
+]
+```
 
-En `backend_Construccion/settings.py`:
-
+### 3.5 settings.py (agregar app)
 ```python
 INSTALLED_APPS = [
-    # apps de Django
-    'app_Construccion',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app_Construccion',  # Agregar esta línea
 ]
 ```
+
+### 3.6 admin.py
+```python
+from django.contrib import admin
+from .models import Empleado, Cliente, Proyecto
+
+admin.site.register(Empleado)
+admin.site.register(Cliente)
+admin.site.register(Proyecto)
+```
+
+## 4. Templates
+
+### 4.1 base.html
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Administración Construcción</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #2c3e50 !important;
+        }
+        .bg-primary {
+            background-color: #3498db !important;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'app_Construccion/header.html' %}
+    {% include 'app_Construccion/navbar.html' %}
+    
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    {% include 'app_Construccion/footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
+
+### 4.2 navbar.html
+```html
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'inicio_construccion' %}">
+            🏗️ Sistema de Administración Construcción
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'inicio_construccion' %}">
+                        🏠 Inicio
+                    </a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        👥 Empleados
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'agregar_empleado' %}">Agregar Empleado</a></li>
+                        <li><a class="dropdown-item" href="{% url 'ver_empleados' %}">Ver Empleados</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        📋 Proyectos
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Agregar Proyecto</a></li>
+                        <li><a class="dropdown-item" href="#">Ver Proyectos</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        👨‍💼 Clientes
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Agregar Cliente</a></li>
+                        <li><a class="dropdown-item" href="#">Ver Clientes</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+```
+
+### 4.3 inicio.html
+```html
+{% extends 'app_Construccion/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Bienvenido al Sistema de Administración de Construcción</h2>
+                <p class="card-text">
+                    Este sistema permite gestionar de manera eficiente todos los aspectos de su empresa de construcción:
+                </p>
+                <ul>
+                    <li>Gestión de empleados y recursos humanos</li>
+                    <li>Control de proyectos de construcción</li>
+                    <li>Administración de clientes</li>
+                    <li>Seguimiento de presupuestos y tiempos</li>
+                </ul>
+                <p class="card-text">
+                    Utilice el menú de navegación para acceder a las diferentes secciones del sistema.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
+                     alt="Construcción" class="img-fluid rounded">
+                <p class="mt-3 text-muted">Sistema desarrollado para optimizar procesos constructivos</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```
+
+### 4.4 footer.html
+```html
+<footer class="footer mt-5">
+    <div class="container text-center">
+        <p>&copy; {% now "Y" %} Sistema de Administración Construcción - Todos los derechos reservados</p>
+        <p>Fecha del sistema: {% now "d/m/Y H:i" %}</p>
+        <p><strong>Creado por Tec. Angel Dario Rojas, Cbtis 128</strong></p>
+    </div>
+</footer>
+```
+
+### 4.5 agregar_empleado.html
+```html
+{% extends 'app_Construccion/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Agregar Nuevo Empleado</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="cargo" class="form-label">Cargo</label>
+                        <input type="text" class="form-control" id="cargo" name="cargo" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fecha_contratacion" class="form-label">Fecha de Contratación</label>
+                            <input type="date" class="form-control" id="fecha_contratacion" name="fecha_contratacion" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="salario" class="form-label">Salario</label>
+                            <input type="number" step="0.01" class="form-control" id="salario" name="salario" required>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'ver_empleados' %}" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar Empleado</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```
+
+### 4.6 ver_empleado.html
+```html
+{% extends 'app_Construccion/base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Lista de Empleados</h4>
+        <a href="{% url 'agregar_empleado' %}" class="btn btn-light">➕ Agregar Empleado</a>
+    </div>
+    <div class="card-body">
+        {% if empleados %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Cargo</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Salario</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for empleado in empleados %}
+                    <tr>
+                        <td>{{ empleado.nombre }}</td>
+                        <td>{{ empleado.apellido }}</td>
+                        <td>{{ empleado.cargo }}</td>
+                        <td>{{ empleado.telefono }}</td>
+                        <td>{{ empleado.email }}</td>
+                        <td>${{ empleado.salario }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'actualizar_empleado' empleado.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                                <a href="{% url 'borrar_empleado' empleado.id %}" class="btn btn-danger btn-sm">🗑️ Borrar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center">
+            <h5>No hay empleados registrados</h5>
+            <p>Comienza agregando el primer empleado al sistema.</p>
+            <a href="{% url 'agregar_empleado' %}" class="btn btn-primary">Agregar Primer Empleado</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+```
+
+### 4.7 actualizar_empleado.html
+```html
+{% extends 'app_Construccion/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">Actualizar Empleado</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ empleado.nombre }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" value="{{ empleado.apellido }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="cargo" class="form-label">Cargo</label>
+                        <input type="text" class="form-control" id="cargo" name="cargo" value="{{ empleado.cargo }}" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" value="{{ empleado.telefono }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ empleado.email }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fecha_contratacion" class="form-label">Fecha de Contratación</label>
+                            <input type="date" class="form-control" id="fecha_contratacion" name="fecha_contratacion" value="{{ empleado.fecha_contratacion|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="salario" class="form-label">Salario</label>
+                            <input type="number" step="0.01" class="form-control" id="salario" name="salario" value="{{ empleado.salario }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'ver_empleados' %}" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-warning">Actualizar Empleado</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```
+
+### 4.8 borrar_empleado.html
+```html
+{% extends 'app_Construccion/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Confirmar Eliminación</h4>
+            </div>
+            <div class="card-body text-center">
+                <h5>¿Está seguro que desea eliminar al empleado?</h5>
+                <p class="lead">{{ empleado.nombre }} {{ empleado.apellido }}</p>
+                <p><strong>Cargo:</strong> {{ empleado.cargo }}</p>
+                <p><strong>Email:</strong> {{ empleado.email }}</p>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{% url 'ver_empleados' %}" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```
+
+## 5. Comandos finales para ejecutar
+
+### Paso 12.5: Realizar migraciones
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### Paso 27: Registrar modelos y migraciones
+```bash
+# Ya están registrados en admin.py, solo hacer migraciones
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### Paso 31: Ejecutar servidor
+```bash
+python manage.py runserver 8032
+```
+
+## 6. Comprobación final
+
+1. Navegar a `http://localhost:8032` para ver la página de inicio
+2. Probar la funcionalidad CRUD completa de empleados
+3. Verificar que todos los templates se muestren correctamente
+4. Confirmar que el sistema es totalmente funcional
+
+El proyecto está listo con colores suaves y modernos, interfaz atractiva y todas las funcionalidades solicitadas para la gestión de empleados.
